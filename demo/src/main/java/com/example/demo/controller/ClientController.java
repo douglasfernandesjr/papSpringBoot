@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -35,15 +36,15 @@ public class ClientController {
 
 
 	@PostMapping("/client/add")
-	public String save(@Valid ClientCreateRequest client, BindingResult result,  Model model) {
+	public String save(@ModelAttribute("client") @Valid ClientCreateRequest client, BindingResult result,  Model model) {
 
 		if(result.hasErrors()) {
-			model.addAttribute("client", client);
+			//model.addAttribute("client", client);
 			return "clientAdd";
 		}
 
 		clientService.createNew(client);
 
-		return list(model);
+		return "redirect:/";
 	}
 }
