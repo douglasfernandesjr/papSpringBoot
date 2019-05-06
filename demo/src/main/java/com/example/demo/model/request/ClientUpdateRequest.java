@@ -4,7 +4,7 @@ import javax.validation.constraints.NotBlank;
 
 public class ClientUpdateRequest extends ClientCreateRequest {
 
-	@NotBlank(message = "Nome é uma informação obrigatória.")
+	@NotBlank(message = "Id é uma informação obrigatória.")
 	private long id;
 	
 	public long getId() {

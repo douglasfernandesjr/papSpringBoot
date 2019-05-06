@@ -5,8 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.exceptions.DataNotFoundException;
 import com.example.demo.model.entities.Client;
 import com.example.demo.model.request.ClientCreateRequest;
+import com.example.demo.model.request.ClientUpdateRequest;
 import com.example.demo.repository.ClientRepository;
 
 @Service
@@ -34,6 +36,19 @@ public class ClientService {
 
     public Iterable<Client> findAll() {
         return clientRepository.findAll();
+    }
+    
+    public Client update(ClientUpdateRequest request) {
+        Client clientModel = clientRepository.findById(request.getId()).orElseThrow(DataNotFoundException::new);
+        clientModel.setName(request.getName());
+        clientModel.setPhone(request.getPhone());
+
+        clientRepository.save(clientModel);
+        return clientModel;
+    }
+    
+    public void delete(Long id) {
+    	clientRepository.deleteById(id);
     }
     
 }
