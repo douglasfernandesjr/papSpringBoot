@@ -16,39 +16,45 @@ public class ClientService {
 
 	private final ClientRepository clientRepository;
 
-    @Autowired
-    public ClientService(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
-    }
-    
-    public Client createNew(ClientCreateRequest request) {
-        Client clientModel = new Client();
-        clientModel.setName(request.getName());
-        clientModel.setPhone(request.getPhone());
+	@Autowired
+	public ClientService(ClientRepository clientRepository) {
+		this.clientRepository = clientRepository;
+	}
 
-        clientRepository.save(clientModel);
-        return clientModel;
-    }
+	public Client createNew(ClientCreateRequest request) {
+		Client clientModel = new Client();
+		clientModel.setName(request.getName());
+		clientModel.setPhone(request.getPhone());
 
-    public Page<Client> findAll(Pageable pageable) {
-        return clientRepository.findAll(pageable);
-    }
+		clientRepository.save(clientModel);
+		return clientModel;
+	}
 
-    public Iterable<Client> findAll() {
-        return clientRepository.findAll();
-    }
-    
-    public Client update(ClientUpdateRequest request) {
-        Client clientModel = clientRepository.findById(request.getId()).orElseThrow(DataNotFoundException::new);
-        clientModel.setName(request.getName());
-        clientModel.setPhone(request.getPhone());
+	public Page<Client> findAll(Pageable pageable) {
+		return clientRepository.findAll(pageable);
+	}
 
-        clientRepository.save(clientModel);
-        return clientModel;
-    }
-    
-    public void delete(Long id) {
-    	clientRepository.deleteById(id);
-    }
-    
+	public Iterable<Client> findAll() {
+		return clientRepository.findAll();
+	}
+
+	public Client findById(long id) {
+		return clientRepository.findById(id).orElseThrow(DataNotFoundException::new);
+
+	}
+
+	public Client update(ClientUpdateRequest request) {
+		Client clientModel = clientRepository.findById(request.getId()).orElseThrow(DataNotFoundException::new);
+		clientModel.setName(request.getName());
+		clientModel.setPhone(request.getPhone());
+
+		clientRepository.save(clientModel);
+		return clientModel;
+	}
+
+	public void delete(Long id) {
+		clientRepository.findById(id).orElseThrow(DataNotFoundException::new);
+		clientRepository.deleteById(id);
+	}
+
 }
