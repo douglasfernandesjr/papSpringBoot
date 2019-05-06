@@ -6,48 +6,44 @@ import com.example.demo.model.request.ClientCreateRequest;
 import com.example.demo.service.ClientService;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class ClientController {
 
-    private final ClientService clientService;
+	private final ClientService clientService;
 
-    public ClientController(ClientService clientService) {
-        this.clientService = clientService;
-    }
+	public ClientController(ClientService clientService) {
+		this.clientService = clientService;
+	}
 
-    @GetMapping("/")
-	public ModelAndView findAll() {
-		
-		ModelAndView mv = new ModelAndView("/client");
-		mv.addObject("clients", clientService.findAll());
-		
-		return mv;
-    }
-    
-    @GetMapping("/client/add")
-	public ModelAndView add(ClientCreateRequest client) {
-		
-		ModelAndView mv = new ModelAndView("/clientAdd");
-		mv.addObject("client", client);
-		
-		return mv;
+	@GetMapping("/")
+	public String list(Model model) {
+		model.addAttribute("clients", clientService.findAll());
+		return "client";
+	}
+
+	@GetMapping("/client/add")
+	public String add(ClientCreateRequest client,Model model) {
+		model.addAttribute("client", client);
+
+		return "clientAdd";
 	}
 
 
-    @PostMapping("/client/save")
-	public ModelAndView save(@Valid ClientCreateRequest client, BindingResult result) {
-		
+	@PostMapping("/client/add")
+	public String save(@Valid ClientCreateRequest client, BindingResult result,  Model model) {
+
 		if(result.hasErrors()) {
-			return add(client);
+			model.addAttribute("client", client);
+			return "clientAdd";
 		}
-		
+
 		clientService.createNew(client);
-		
-		return findAll();
+
+		return list(model);
 	}
 }

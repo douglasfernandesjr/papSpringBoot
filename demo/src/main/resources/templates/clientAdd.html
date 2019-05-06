@@ -18,7 +18,7 @@
 			<strong>Cadastro de Clientes</strong>
 		</div>
 		<div class="panel-body">
-			<form class="form-horizontal" th:object="${client}" th:action="@{/client/save}" method="POST"
+			<form action="#" class="form-horizontal" th:object="${client}" th:action="@{/client/add}" method="POST"
 				style="margin: 10px">
 				<div class="form-group">
 					<fieldset>
@@ -33,7 +33,7 @@
 							<div class="col-md-4" th:classappend="${#fields.hasErrors('name')}? 'has-error'">
 							    <label>Nome</label>
 							    <input type="text" class="form-control input-sm" th:field="*{name}" maxlength="255" autofocus="autofocus" placeholder="Nome do Cliente" />
-							    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+							    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</span>
 							</div>
 						</div>
 						<div class="form-group row">
