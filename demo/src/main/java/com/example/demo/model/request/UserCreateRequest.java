@@ -7,7 +7,7 @@ public class UserCreateRequest {
 	@NotBlank(message = "Nome é uma informação obrigatória.")
 	private String username;
 
-	@NotBlank(message = "Telefone é uma informação obrigatória.")
+	@NotBlank(message = "Senha é uma informação obrigatória.")
 	private String password;
 
 
