@@ -1,6 +1,5 @@
 package com.example.demo.model.request;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 
 public class UserCreateRequest {
