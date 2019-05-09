@@ -2,10 +2,14 @@ package com.example.demo.model.request;
 
 import javax.validation.constraints.NotBlank;
 
+import com.example.demo.model.validators.Phone;
+
 public class ClientCreateRequest {
 	
 	@NotBlank(message = "Nome é uma informação obrigatória.")
 	private String name;
+	
+	@Phone
 	@NotBlank(message = "Telefone é uma informação obrigatória.")
 	private String phone;
 
