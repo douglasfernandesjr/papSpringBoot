@@ -21,13 +21,17 @@ public class TokenAuthenticationService {
 	static final String HEADER_STRING = "Authorization";
 	
 	public static void addAuthentication(HttpServletResponse response, String username) {
-		String JWT = Jwts.builder()
+		String JWT = addAuthentication(username);
+		
+		response.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + JWT);
+	}
+
+	public static String addAuthentication(String username) {
+		return  Jwts.builder()
 				.setSubject(username)
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
 				.signWith(SignatureAlgorithm.HS512, SECRET)
 				.compact();
-		
-		response.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + JWT);
 	}
 	
 	public static Authentication getAuthentication(HttpServletRequest request) {

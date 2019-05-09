@@ -73,7 +73,7 @@ public class ApiClientController {
 	@DeleteMapping("{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Long employeeId) {
 		clientService.delete(employeeId);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok().build();
 	}
 
 	private ClientProjection convertToProjection(Client client) {
