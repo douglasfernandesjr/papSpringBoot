@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -55,14 +57,14 @@ public class ApiClientController {
 	}
 
 	@PutMapping("{id}")
-	public ResponseEntity<ClientProjection> update(@PathVariable("id") Long id, @RequestBody ClientUpdateRequest request) {
+	public ResponseEntity<ClientProjection> update(@PathVariable("id") Long id,@Valid @RequestBody ClientUpdateRequest request) {
 		request.setId(id);
 		Client updated = clientService.update(request);
 		return ResponseEntity.ok(convertToProjection(updated));
 	}
 
 	@PostMapping
-	public ResponseEntity<ClientProjection> create (@RequestBody ClientCreateRequest request) {
+	public ResponseEntity<ClientProjection> create (@Valid @RequestBody ClientCreateRequest request) {
 		Client updated = clientService.createNew(request);
 		return ResponseEntity.ok(convertToProjection(updated));
 	}
