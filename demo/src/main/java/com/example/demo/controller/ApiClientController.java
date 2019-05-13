@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.entities.Client;
+import com.example.demo.model.projections.ClientLoginProjection;
 import com.example.demo.model.projections.ClientProjection;
 import com.example.demo.model.request.ClientCreateRequest;
 import com.example.demo.model.request.ClientUpdateRequest;
@@ -54,6 +55,12 @@ public class ApiClientController {
 
 		Page<ClientProjection> responsePage = new PageImpl<>(responseList, pageable, page.getTotalElements());
 		return ResponseEntity.ok(responsePage);
+	}
+
+	@GetMapping("/clientuser")
+	public ResponseEntity<List<ClientLoginProjection>> findClientUser() {
+	
+		return ResponseEntity.ok(clientService.ListClientLoginProjection());
 	}
 
 	@PutMapping("{id}")

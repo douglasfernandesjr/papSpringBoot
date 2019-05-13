@@ -17,6 +17,11 @@ public class ClientCreateTemplateLoader implements TemplateLoader {
             add("phone", "1199999999");
         }});
 
+        Fixture.of(ClientCreateRequest.class).addTemplate("valid_TestUser", new Rule() {{
+            add("name", "TestUser");
+            add("phone", "1199999999");
+        }});
+
         Fixture.of(ClientCreateRequest.class).addTemplate("invalid_phone", new Rule() {{
             add("name", "douglas");
             add("phone", "textas1234");

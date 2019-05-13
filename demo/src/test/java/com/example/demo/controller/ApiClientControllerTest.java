@@ -72,6 +72,20 @@ public class ApiClientControllerTest {
     }
 
     @Test
+    void shouldCreateAndSelectClientUser() throws Exception {
+
+        ClientCreateRequest request = Fixture.from(ClientCreateRequest.class).gimme("valid_TestUser");
+
+        mockMvc.perform(withAuthorization(post("/api/client")).contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(request))).andDo(print()).andExpect(status().isOk())
+                .andExpect(jsonPath("id").isNumber());
+
+        mockMvc.perform(withAuthorization(get("/api/client/clientuser")).contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(request))).andDo(print()).andExpect(status().isOk())
+                .andExpect(jsonPath("[0].id").isNumber());
+    }
+
+    @Test
     void shouldValidateClient() throws Exception {
 
         ClientCreateRequest request = Fixture.from(ClientCreateRequest.class).gimme("invalid_phone");

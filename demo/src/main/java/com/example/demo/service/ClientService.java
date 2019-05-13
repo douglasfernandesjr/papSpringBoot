@@ -5,8 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import com.example.demo.exceptions.DataNotFoundException;
 import com.example.demo.model.entities.Client;
+import com.example.demo.model.projections.ClientLoginProjection;
 import com.example.demo.model.request.ClientCreateRequest;
 import com.example.demo.model.request.ClientUpdateRequest;
 import com.example.demo.repository.ClientRepository;
@@ -55,6 +58,10 @@ public class ClientService {
 	public void delete(Long id) {
 		clientRepository.findById(id).orElseThrow(DataNotFoundException::new);
 		clientRepository.deleteById(id);
+	}
+
+	public List<ClientLoginProjection> ListClientLoginProjection() {
+		return clientRepository.ListClientLogin();
 	}
 
 }
