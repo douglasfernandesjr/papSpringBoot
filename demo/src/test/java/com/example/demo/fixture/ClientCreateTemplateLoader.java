@@ -12,6 +12,7 @@ import com.example.demo.model.request.ClientCreateRequest;
 public class ClientCreateTemplateLoader implements TemplateLoader {
     @Override
     public void load() {
+
         Fixture.of(ClientCreateRequest.class).addTemplate("valid", new Rule() {{
             add("name", "douglas");
             add("phone", "1199999999");

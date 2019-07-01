@@ -12,13 +12,14 @@ import com.example.demo.repository.UserRepository;
 @Service
 public class UserService {
 
+	@Autowired
+	private UserRepository userRepository;
 
-	private final UserRepository userRepository;
 	private final PasswordEncoder  passEncoder;
 
-	@Autowired
-	public UserService(UserRepository userRepository) {
-		this.userRepository = userRepository;
+	
+	public UserService() {
+
 		passEncoder = new BCryptPasswordEncoder();
 	}
 
