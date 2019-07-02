@@ -17,11 +17,11 @@ import com.example.demo.repository.ClientRepository;
 @Service
 public class ClientService {
 
-	private final ClientRepository clientRepository;
-
 	@Autowired
-	public ClientService(ClientRepository clientRepository) {
-		this.clientRepository = clientRepository;
+	private ClientRepository clientRepository;
+
+	
+	public ClientService() {
 	}
 
 	public Client createNew(ClientCreateRequest request) {
