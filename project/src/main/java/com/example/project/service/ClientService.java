@@ -51,9 +51,4 @@ public class ClientService {
                     .collect(Collectors.toList());
     }
 
-    // public ClientResponse findById(Integer id) {
-    //     Optional<Client> client = clientRepository.findById(id);
-    //     return client.orElseThrow(() -> new DataNotFoundException("Client Not found"));
-    // }
-
 }
