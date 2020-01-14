@@ -31,13 +31,8 @@ public class ClientController {
 		return clientService.listClient();
     }
     
-<<<<<<< HEAD
     @PostMapping
 	public ClientResponse post(@Valid @RequestBody ClientCreateRequest model) {
-=======
-	@PostMapping
-	public ClientResponse post(@RequestBody ClientCreateRequest model) {
->>>>>>> t02/01
 		return clientService.createClient(model);
 	}
 
