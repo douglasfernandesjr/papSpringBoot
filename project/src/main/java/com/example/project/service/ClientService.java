@@ -1,14 +1,11 @@
 package com.example.project.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.example.project.domain.dto.request.ClientCreateRequest;
 import com.example.project.domain.dto.response.ClientResponse;
 import com.example.project.domain.entities.Client;
-import com.example.project.exception.DataNotFoundException;
 import com.example.project.repository.ClientRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
