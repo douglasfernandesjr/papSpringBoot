@@ -2,6 +2,8 @@ package com.example.project.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.example.project.domain.dto.request.ClientCreateRequest;
 import com.example.project.domain.dto.response.ClientResponse;
 import com.example.project.service.ClientService;
@@ -9,6 +11,7 @@ import com.example.project.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +32,7 @@ public class ClientController {
     }
     
     @PostMapping
-	public ClientResponse post(ClientCreateRequest model) {
+	public ClientResponse post(@Valid @RequestBody ClientCreateRequest model) {
 		return clientService.createClient(model);
 	}
 
