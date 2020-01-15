@@ -33,4 +33,8 @@ public class ClientService {
         return client.orElseThrow(() -> new DataNotFoundException("Client Not found"));
 	}
 
+	public  List<String> listDistinct() {
+        return clientRepository.listDistinct();
+	}
+
 }

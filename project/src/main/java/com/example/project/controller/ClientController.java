@@ -45,6 +45,11 @@ public class ClientController {
 				.collect(Collectors.toList()));
 	}
 
+	@GetMapping(value = "/distinct")
+	public ResponseEntity<List<String>> listDistinct() {
+		return ResponseEntity.ok(clientService.listDistinct());
+	}
+
 	@PostMapping
 	public ResponseEntity<ClientResponse> post(@Valid @RequestBody ClientCreateRequest model) {
 
