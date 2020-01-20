@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ClientResponse {
 
-    private int id;
+    private Integer id;
 
     private String name;
 
