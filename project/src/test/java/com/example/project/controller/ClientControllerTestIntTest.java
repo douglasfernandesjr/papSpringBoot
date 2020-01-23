@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotNull;
 
 import com.example.project.domain.dto.request.ClientCreateRequest;
 import com.example.project.domain.dto.response.ClientResponse;
+import com.example.project.domain.entities.Client;
+import com.example.project.repository.ClientRepository;
 import com.example.project.utils.IntegrationTestConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -39,6 +41,9 @@ public class ClientControllerTestIntTest {
     @Autowired
     private ObjectMapper mapper;
 
+    @Autowired
+    private ClientRepository clientRepository;
+
     @Test
     public void should_getEmptyList_whenGetEmpty() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/clients")) // Executa
@@ -52,6 +57,16 @@ public class ClientControllerTestIntTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/clients/1")) // Executa
                 .andDo(MockMvcResultHandlers.print()) // pega resultado
                 .andExpect(MockMvcResultMatchers.status().isNotFound()); // faz a validação.
+    }
+
+    @Test
+    public void should_get_whenGetById() throws Exception {
+        Client model = Client.builder().name("nome").phone("987654321").build();
+        clientRepository.saveAndFlush(model);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/clients/"+model.getId())) // Executa
+                .andDo(MockMvcResultHandlers.print()) // pega resultado
+                .andExpect(MockMvcResultMatchers.status().isOk()); // faz a validação.
     }
 
     @Test
