@@ -50,10 +50,15 @@ public class SiteUserRepositoryTest {
 
         SiteUser usr = SiteUser.builder().email(email).password(password).build();
 
+        SiteUserRole sUsrRole1 = SiteUserRole.builder().siteUser(usr).siteRole(admRole).build();
+        SiteUserRole sUsrRole2 = SiteUserRole.builder().siteUser(usr).siteRole(admRole).build();
+
         entityManager.persist(usr);
-        entityManager.persist(SiteUserRole.builder().siteUser(usr).siteRole(admRole).build());
-        entityManager.persist(SiteUserRole.builder().siteUser(usr).siteRole(userRole).build());
+        entityManager.persist(sUsrRole1);
+        entityManager.persist(sUsrRole2);
         entityManager.flush();
+
+
     }
 
     @Test

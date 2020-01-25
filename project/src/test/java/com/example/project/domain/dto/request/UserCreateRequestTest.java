@@ -28,9 +28,21 @@ public class UserCreateRequestTest {
         validator = factory.getValidator();
     }
 
+    public static final UserCreateRequest usrInvalidNull = UserCreateRequest.builder() //
+            .email(null).password(null).isAdmin(null).build();
+
+    public static final UserCreateRequest usrInvalidEmail = UserCreateRequest.builder() //
+            .email("email").password("senha12345").isAdmin(false).build();
+
+    public static final UserCreateRequest usrValidEmail1 = UserCreateRequest.builder() //
+            .email("email@email.com").password("senha12345").isAdmin(false).build();
+
+    public static final UserCreateRequest usrValidEmail2 = UserCreateRequest.builder() //
+            .email("email@email.com.br").password("senha12345").isAdmin(false).build();
+
     @Test
     public void should_NotBeValid_WhenNull() {
-        UserCreateRequest createDto = UserCreateRequest.builder().email(null).password(null).isAdmin(null).build();
+        UserCreateRequest createDto = usrInvalidNull;
 
         Set<ConstraintViolation<UserCreateRequest>> constraintViolations = validator.validate(createDto);
 
@@ -39,7 +51,7 @@ public class UserCreateRequestTest {
 
     @Test
     public void should_NotBeValid_WhenInvalidEmail() {
-        UserCreateRequest createDto = UserCreateRequest.builder().email("email").password("senha12345").isAdmin(false).build();
+        UserCreateRequest createDto = usrInvalidEmail;
 
         Set<ConstraintViolation<UserCreateRequest>> constraintViolations = validator.validate(createDto);
 
@@ -48,7 +60,7 @@ public class UserCreateRequestTest {
 
     @Test
     public void should_BeValid_WhenValidData() {
-        UserCreateRequest createDto = UserCreateRequest.builder().email("email@email.com").password("senha12345").isAdmin(false).build();
+        UserCreateRequest createDto = usrValidEmail1;
 
         Set<ConstraintViolation<UserCreateRequest>> constraintViolations = validator.validate(createDto);
 
@@ -57,7 +69,8 @@ public class UserCreateRequestTest {
 
     @Test
     public void should_BeValid_WhenValidData_2() {
-        UserCreateRequest createDto = UserCreateRequest.builder().email("email@email.com.br").password("senha12345").isAdmin(false).build();
+        
+        UserCreateRequest createDto = usrValidEmail2;
 
         Set<ConstraintViolation<UserCreateRequest>> constraintViolations = validator.validate(createDto);
 
