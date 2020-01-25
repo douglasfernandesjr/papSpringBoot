@@ -15,6 +15,7 @@ import com.example.project.domain.entities.SiteRole;
 import com.example.project.domain.entities.SiteUser;
 import com.example.project.domain.entities.SiteUserRole;
 import com.example.project.exception.BussinessRuleException;
+import com.example.project.repository.SiteRoleRepository;
 import com.example.project.repository.SiteUserRepository;
 import com.example.project.repository.SiteUserRoleRepository;
 import com.example.project.utils.SiteRoles;
@@ -42,6 +43,9 @@ public class SiteUserServiceTest {
     @Mock
     private SiteUserRepository siteUserRepository;
 
+    @Mock
+    private SiteRoleRepository siteRoleRepository;
+
     @InjectMocks
     private SiteUserService service;
 
@@ -62,11 +66,13 @@ public class SiteUserServiceTest {
     public void when_CreateUser_thenOK() {
 
         // given
+        when(siteRoleRepository.findById(SiteRoles.APP_ADMIN)).thenReturn(Optional.of(admRole));
+        when(siteRoleRepository.findById(SiteRoles.APP_USER)).thenReturn(Optional.of(userRole));
         when(siteUserRepository.findByEmail(anyString())).thenReturn(optional);
         when(siteUserRepository.save(any())).then(returnsFirstArg());
         when(siteUserRoleRepository.saveAll(any())).thenAnswer(i -> {
             @SuppressWarnings("unchecked")
-            Iterable<SiteUserRole> entities = (Iterable<SiteUserRole>) i.getArguments()[0] ;
+            Iterable<SiteUserRole> entities = (Iterable<SiteUserRole>) i.getArguments()[0];
             List<SiteUserRole> result = new ArrayList<SiteUserRole>();
             entities.forEach(result::add);
             return result;
@@ -89,6 +95,8 @@ public class SiteUserServiceTest {
     public void when_CreateAdminUser_thenOK() {
 
         // given
+        when(siteRoleRepository.findById(SiteRoles.APP_ADMIN)).thenReturn(Optional.of(admRole));
+        when(siteRoleRepository.findById(SiteRoles.APP_USER)).thenReturn(Optional.of(userRole));
         when(siteUserRepository.findByEmail(anyString())).thenReturn(optional);
         when(siteUserRepository.save(any())).thenAnswer(i -> i.getArguments()[0]);
         when(siteUserRoleRepository.saveAll(any())).thenAnswer(i -> {
@@ -123,6 +131,32 @@ public class SiteUserServiceTest {
         service.createUser(email, password, false);
         // when
 
+    }
+
+    @Test
+    public void when_GetEmptyRole_thenCreate() {
+        // given
+        when(siteRoleRepository.findById(anyString())).thenReturn(Optional.ofNullable(null));
+        when(siteRoleRepository.save(any())).thenAnswer(i -> i.getArguments()[0]);
+        // when
+        SiteRole role = service.getRole(SiteRoles.APP_ADMIN);
+
+        // then
+        assertNotNull(role);
+        assertEquals(role.getName(), SiteRoles.APP_ADMIN);
+
+    }
+
+    @Test
+    public void when_GetRole_thenReturn() {
+        // given
+        when(siteRoleRepository.findById(anyString())).thenReturn(Optional.of(admRole));
+        // when
+        SiteRole role = service.getRole(SiteRoles.APP_ADMIN);
+
+        // then
+        assertNotNull(role);
+        assertEquals(role.getName(), SiteRoles.APP_ADMIN);
     }
 
 }

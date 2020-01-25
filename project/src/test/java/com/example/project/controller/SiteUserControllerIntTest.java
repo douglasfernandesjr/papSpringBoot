@@ -94,6 +94,6 @@ public class SiteUserControllerIntTest {
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(mapper.writeValueAsString(request))) // Executa
                 .andDo(MockMvcResultHandlers.print()) // pega resultado
-                .andExpect(MockMvcResultMatchers.status().isCreated()); // faz a validação.
+                .andExpect(MockMvcResultMatchers.status().isBadRequest()); // faz a validação.
     }
 }

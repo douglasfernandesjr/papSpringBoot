@@ -8,6 +8,7 @@ import com.example.project.domain.entities.SiteRole;
 import com.example.project.domain.entities.SiteUser;
 import com.example.project.domain.entities.SiteUserRole;
 import com.example.project.exception.BussinessRuleException;
+import com.example.project.repository.SiteRoleRepository;
 import com.example.project.repository.SiteUserRepository;
 import com.example.project.repository.SiteUserRoleRepository;
 import com.example.project.utils.SiteRoles;
@@ -25,10 +26,14 @@ public class SiteUserService {
 
 	private final SiteUserRepository siteUserRepository;
 
+	private final SiteRoleRepository siteRoleRepository;
+
 	@Autowired
-	public SiteUserService(SiteUserRepository siteUserRepository, SiteUserRoleRepository siteUserRoleRepository) {
+	public SiteUserService(SiteUserRepository siteUserRepository, SiteUserRoleRepository siteUserRoleRepository, //
+			SiteRoleRepository siteRoleRepository) {
 		this.siteUserRoleRepository = siteUserRoleRepository;
 		this.siteUserRepository = siteUserRepository;
+		this.siteRoleRepository = siteRoleRepository;
 	}
 
 	public SiteUser createUser(String email, String password, boolean isAdmin) {
@@ -44,9 +49,9 @@ public class SiteUserService {
 
 		Set<SiteUserRole> roles = new HashSet<SiteUserRole>();
 
-		roles.add(SiteUserRole.builder().siteUser(newUser).siteRole(new SiteRole(SiteRoles.APP_USER)).build());
+		roles.add(getUserRole(newUser, SiteRoles.APP_USER));
 		if (isAdmin) {
-			roles.add(SiteUserRole.builder().siteUser(newUser).siteRole(new SiteRole(SiteRoles.APP_ADMIN)).build());
+			roles.add(getUserRole(newUser, SiteRoles.APP_ADMIN));
 		}
 
 		siteUserRoleRepository.saveAll(roles);
@@ -54,6 +59,20 @@ public class SiteUserService {
 		newUser.setRoles(roles);
 
 		return newUser;
+	}
+
+	public SiteRole getRole(String role) {
+		Optional<SiteRole> siteRole = siteRoleRepository.findById(role);
+
+		if (siteRole.isPresent())
+			return siteRole.get();
+		else
+			return siteRoleRepository.save(new SiteRole(role));
+	}
+
+	private SiteUserRole getUserRole(SiteUser usr, String role) {
+		SiteRole siteRole = getRole(role);
+		return SiteUserRole.builder().siteUser(usr).siteRole(siteRole).build();
 	}
 
 }
