@@ -65,6 +65,7 @@ public class SiteUserServiceTest {
         when(siteUserRepository.findByEmail(anyString())).thenReturn(optional);
         when(siteUserRepository.save(any())).then(returnsFirstArg());
         when(siteUserRoleRepository.saveAll(any())).thenAnswer(i -> {
+            @SuppressWarnings("unchecked")
             Iterable<SiteUserRole> entities = (Iterable<SiteUserRole>) i.getArguments()[0] ;
             List<SiteUserRole> result = new ArrayList<SiteUserRole>();
             entities.forEach(result::add);
@@ -91,6 +92,7 @@ public class SiteUserServiceTest {
         when(siteUserRepository.findByEmail(anyString())).thenReturn(optional);
         when(siteUserRepository.save(any())).thenAnswer(i -> i.getArguments()[0]);
         when(siteUserRoleRepository.saveAll(any())).thenAnswer(i -> {
+            @SuppressWarnings("unchecked")
             Iterable<SiteUserRole> entities = (Iterable<SiteUserRole>) i.getArguments()[0];
             List<SiteUserRole> result = new ArrayList<SiteUserRole>();
             entities.forEach(result::add);

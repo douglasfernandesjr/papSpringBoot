@@ -20,8 +20,4 @@ public class SiteRole {
 
     @Id
     private String name;
-
-    public String getAuthority() {
-        return this.name;
-    }
 }
