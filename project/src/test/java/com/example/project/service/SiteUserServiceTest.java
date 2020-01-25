@@ -1,26 +1,31 @@
 package com.example.project.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static org.mockito.AdditionalAnswers.returnsFirstArg;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import com.example.project.domain.entities.SiteRole;
 import com.example.project.domain.entities.SiteUser;
 import com.example.project.domain.entities.SiteUserRole;
 import com.example.project.exception.BussinessRuleException;
-import com.example.project.repository.SiteRoleRepository;
 import com.example.project.repository.SiteUserRepository;
 import com.example.project.repository.SiteUserRoleRepository;
 import com.example.project.utils.SiteRoles;
 
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
 
 /**
  * SiteUserServiceTest
@@ -30,9 +35,6 @@ public class SiteUserServiceTest {
 
     @Rule
     public ExpectedException expected = ExpectedException.none();
-
-    @Mock
-    private SiteRoleRepository siteRoleRepository;
 
     @Mock
     private SiteUserRoleRepository siteUserRoleRepository;
@@ -54,38 +56,70 @@ public class SiteUserServiceTest {
     SiteUserRole usrRole1 = SiteUserRole.builder().siteUser(usr).siteRole(admRole).build();
     SiteUserRole usrRole2 = SiteUserRole.builder().siteUser(usr).siteRole(userRole).build();
 
+    Optional<SiteUser> optional = Optional.ofNullable(null);
+
     @Test
-    public void when_CreateUser_thenOK(){
+    public void when_CreateUser_thenOK() {
 
-        //given
-        when(repositoryMock.findById(anyInt())).thenReturn(Optional.of(entity));
-        //then
+        // given
+        when(siteUserRepository.findByEmail(anyString())).thenReturn(optional);
+        when(siteUserRepository.save(any())).then(returnsFirstArg());
+        when(siteUserRoleRepository.saveAll(any())).thenAnswer(i -> {
+            Iterable<SiteUserRole> entities = (Iterable<SiteUserRole>) i.getArguments()[0] ;
+            List<SiteUserRole> result = new ArrayList<SiteUserRole>();
+            entities.forEach(result::add);
+            return result;
+        });
 
-        //when
+        // then
+        SiteUser newUser = service.createUser(email, password, false);
+        // when
+
+        assertNotNull(newUser);
+        assertEquals(newUser.getEmail(), email);
+        assertEquals(newUser.getPassword(), password);
+
+        assertEquals(newUser.getRoles().size(), 1);
+        assertNotNull(newUser.getRoles().iterator().next().getSiteRole());
 
     }
 
     @Test
-    public void when_CreateAdminUser_thenOK(){
+    public void when_CreateAdminUser_thenOK() {
 
-        //given
-        when(repositoryMock.findById(anyInt())).thenReturn(Optional.of(entity));
-        //then
+        // given
+        when(siteUserRepository.findByEmail(anyString())).thenReturn(optional);
+        when(siteUserRepository.save(any())).thenAnswer(i -> i.getArguments()[0]);
+        when(siteUserRoleRepository.saveAll(any())).thenAnswer(i -> {
+            Iterable<SiteUserRole> entities = (Iterable<SiteUserRole>) i.getArguments()[0];
+            List<SiteUserRole> result = new ArrayList<SiteUserRole>();
+            entities.forEach(result::add);
+            return result;
+        });
 
-        //when
+        // then
+        SiteUser newUser = service.createUser(email, password, true);
+
+        // when
+        assertNotNull(newUser);
+        assertEquals(newUser.getEmail(), email);
+        assertEquals(newUser.getPassword(), password);
+
+        assertEquals(newUser.getRoles().size(), 2);
+        assertNotNull(newUser.getRoles().iterator().next().getSiteRole());
 
     }
 
     @Test
-    public void when_CreateDuplicatedUser_thenError(){
-        //given
+    public void when_CreateDuplicatedUser_thenError() {
+        // given
         when(siteUserRepository.findByEmail(anyString())).thenReturn(Optional.of(usr));
-        //then
-
-        service.createUser(email,password,false);
-        //when
+        // then
         expected.expect(BussinessRuleException.class);
         expected.expectMessage("Email já em uso");
+
+        service.createUser(email, password, false);
+        // when
 
     }
 

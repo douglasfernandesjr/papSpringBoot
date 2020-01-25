@@ -1,7 +1,6 @@
 package com.example.project.repository;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 import com.example.project.domain.entities.SiteRole;
 import com.example.project.domain.entities.SiteUser;
