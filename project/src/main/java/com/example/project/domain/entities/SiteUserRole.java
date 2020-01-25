@@ -1,5 +1,6 @@
 package com.example.project.domain.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,12 +28,11 @@ public class SiteUserRole {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "siteRoleId", nullable = false)
     private SiteRole siteRole;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "siteUserId", nullable = false)
-    private SiteUser siteUser;
+    @Column(name = "siteUserId", nullable = false)
+    private Integer siteUserId;
     
 }

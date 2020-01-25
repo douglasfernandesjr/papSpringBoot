@@ -72,7 +72,7 @@ public class SiteUserService {
 
 	private SiteUserRole getUserRole(SiteUser usr, String role) {
 		SiteRole siteRole = getRole(role);
-		return SiteUserRole.builder().siteUser(usr).siteRole(siteRole).build();
+		return SiteUserRole.builder().siteUserId(usr.getId()).siteRole(siteRole).build();
 	}
 
 }

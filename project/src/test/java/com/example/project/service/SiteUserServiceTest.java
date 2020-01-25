@@ -56,9 +56,9 @@ public class SiteUserServiceTest {
 
     SiteRole userRole = SiteRole.builder().name(SiteRoles.APP_USER).build();
 
-    SiteUser usr = SiteUser.builder().email(email).password(password).build();
-    SiteUserRole usrRole1 = SiteUserRole.builder().siteUser(usr).siteRole(admRole).build();
-    SiteUserRole usrRole2 = SiteUserRole.builder().siteUser(usr).siteRole(userRole).build();
+    SiteUser usr = SiteUser.builder().id(1).email(email).password(password).build();
+    SiteUserRole usrRole1 = SiteUserRole.builder().siteUserId(usr.getId()).siteRole(admRole).build();
+    SiteUserRole usrRole2 = SiteUserRole.builder().siteUserId(usr.getId()).siteRole(userRole).build();
 
     Optional<SiteUser> optional = Optional.ofNullable(null);
 
@@ -66,7 +66,6 @@ public class SiteUserServiceTest {
     public void when_CreateUser_thenOK() {
 
         // given
-        when(siteRoleRepository.findById(SiteRoles.APP_ADMIN)).thenReturn(Optional.of(admRole));
         when(siteRoleRepository.findById(SiteRoles.APP_USER)).thenReturn(Optional.of(userRole));
         when(siteUserRepository.findByEmail(anyString())).thenReturn(optional);
         when(siteUserRepository.save(any())).then(returnsFirstArg());

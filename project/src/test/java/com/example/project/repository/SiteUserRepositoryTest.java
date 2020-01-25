@@ -42,6 +42,9 @@ public class SiteUserRepositoryTest {
     @Before
     public void setUp() {
         // given
+
+        entityManager.clear();
+
         SiteRole admRole = SiteRole.builder().name(SiteRoles.APP_ADMIN).build();
         entityManager.persist(admRole);
 
@@ -49,14 +52,17 @@ public class SiteUserRepositoryTest {
         entityManager.persist(userRole);
 
         SiteUser usr = SiteUser.builder().email(email).password(password).build();
-
-        SiteUserRole sUsrRole1 = SiteUserRole.builder().siteUser(usr).siteRole(admRole).build();
-        SiteUserRole sUsrRole2 = SiteUserRole.builder().siteUser(usr).siteRole(admRole).build();
-
         entityManager.persist(usr);
+
+        SiteUserRole sUsrRole1 = SiteUserRole.builder().siteUserId(usr.getId()).siteRole(admRole).build();
+        SiteUserRole sUsrRole2 = SiteUserRole.builder().siteUserId(usr.getId()).siteRole(admRole).build();
+
+        
         entityManager.persist(sUsrRole1);
         entityManager.persist(sUsrRole2);
         entityManager.flush();
+
+        entityManager.refresh(usr);
 
 
     }
