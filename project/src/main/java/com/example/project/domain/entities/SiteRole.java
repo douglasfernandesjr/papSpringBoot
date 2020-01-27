@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import org.springframework.security.core.GrantedAuthority;
+
 /**
  * SiteRole
  */
@@ -16,8 +18,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SiteRole {
+public class SiteRole implements GrantedAuthority {
 
     @Id
     private String name;
+
+    @Override
+    public String getAuthority() {
+        return this.getName();
+    }
 }

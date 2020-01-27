@@ -14,6 +14,8 @@ import com.example.project.repository.SiteUserRoleRepository;
 import com.example.project.utils.SiteRoles;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -28,12 +30,16 @@ public class SiteUserService {
 
 	private final SiteRoleRepository siteRoleRepository;
 
+	private final PasswordEncoder passEncoder;
+
 	@Autowired
-	public SiteUserService(SiteUserRepository siteUserRepository, SiteUserRoleRepository siteUserRoleRepository, //
+	public SiteUserService(SiteUserRepository siteUserRepository, //
+			SiteUserRoleRepository siteUserRoleRepository, //
 			SiteRoleRepository siteRoleRepository) {
 		this.siteUserRoleRepository = siteUserRoleRepository;
 		this.siteUserRepository = siteUserRepository;
 		this.siteRoleRepository = siteRoleRepository;
+		this.passEncoder = new BCryptPasswordEncoder();
 	}
 
 	public SiteUser createUser(String email, String password, boolean isAdmin) {
@@ -43,7 +49,7 @@ public class SiteUserService {
 			throw new BussinessRuleException("Email já em uso");
 		}
 
-		SiteUser newUser = SiteUser.builder().email(email).password(password).build();
+		SiteUser newUser = SiteUser.builder().email(email).password(passEncoder.encode(password)).build();
 
 		siteUserRepository.save(newUser);
 
@@ -73,6 +79,20 @@ public class SiteUserService {
 	private SiteUserRole getUserRole(SiteUser usr, String role) {
 		SiteRole siteRole = getRole(role);
 		return SiteUserRole.builder().siteUserId(usr.getId()).siteRole(siteRole).build();
+	}
+
+	public SiteUser ValidateUser(String userName, String password) {
+
+		Optional<SiteUser> user = siteUserRepository.findByEmail(userName);
+
+		if (!user.isPresent())
+			return null;
+
+		if (passEncoder.matches(password, user.get().getPassword()))
+			return user.get();
+		else
+			return null;
+
 	}
 
 }
