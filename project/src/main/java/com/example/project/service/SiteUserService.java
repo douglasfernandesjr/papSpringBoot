@@ -1,8 +1,11 @@
 package com.example.project.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.example.project.domain.entities.SiteRole;
 import com.example.project.domain.entities.SiteUser;
@@ -79,6 +82,20 @@ public class SiteUserService {
 	private SiteUserRole getUserRole(SiteUser usr, String role) {
 		SiteRole siteRole = getRole(role);
 		return SiteUserRole.builder().siteUserId(usr.getId()).siteRole(siteRole).build();
+	}
+
+	public List<SiteRole> rolesFrom(String usrName) {
+		Optional<SiteUser> user = siteUserRepository.findByEmail(usrName);
+
+		if (!user.isPresent())
+			return new ArrayList<SiteRole>();
+		else
+			return rolesFrom(user.get());
+	}
+
+	public List<SiteRole> rolesFrom(SiteUser usr) {
+		return usr.getRoles().stream() //
+				.map(x -> x.getSiteRole()).collect(Collectors.toList());
 	}
 
 	public SiteUser ValidateUser(String userName, String password) {

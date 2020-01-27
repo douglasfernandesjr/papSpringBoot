@@ -55,7 +55,7 @@ public class BaseSecurityTest {
     @Test
     public void should_GenerateToken_forValidUser() throws Exception {
 
-        UserCreateRequest usr = UserCreateRequestTest.usrValidEmail2;
+        UserCreateRequest usr = UserCreateRequestTest.usrValidEmail3;
         LoginRequest loginInfo = new LoginRequest(usr.getEmail(), usr.getPassword());
 
         // given
@@ -83,7 +83,7 @@ public class BaseSecurityTest {
     @Test
     public void should_NotGenerateToken_forInvalidPassword() throws Exception {
 
-        UserCreateRequest usr = UserCreateRequestTest.usrValidEmail1;
+        UserCreateRequest usr = UserCreateRequestTest.usrValidEmail4;
         LoginRequest loginInfo = new LoginRequest(usr.getEmail(), usr.getPassword());
 
         // given

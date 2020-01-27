@@ -20,6 +20,11 @@ import org.springframework.security.core.GrantedAuthority;
 @NoArgsConstructor
 public class SiteRole implements GrantedAuthority {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 6885827715198494513L;
+    
     @Id
     private String name;
 
