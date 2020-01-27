@@ -53,7 +53,7 @@ public class BaseSecurityTest {
     }
 
     @Test
-    public void should_generateToken_forValidUser() throws Exception {
+    public void should_GenerateToken_forValidUser() throws Exception {
 
         UserCreateRequest usr = UserCreateRequestTest.usrValidEmail2;
         LoginRequest loginInfo = new LoginRequest(usr.getEmail(), usr.getPassword());
@@ -78,6 +78,24 @@ public class BaseSecurityTest {
         String[] bearer = authHeader.split(" ");
         assertEquals(bearer[0],"Bearer");
         assertNotNull(bearer[1]);
+    }
+
+    @Test
+    public void should_NotGenerateToken_forInvalidPassword() throws Exception {
+
+        UserCreateRequest usr = UserCreateRequestTest.usrValidEmail1;
+        LoginRequest loginInfo = new LoginRequest(usr.getEmail(), usr.getPassword());
+
+        // given
+        this.service.createUser(usr.getEmail(), usr.getPassword() + "ERRADO", usr.getIsAdmin());
+
+        // when + then
+        mockMvc.perform(MockMvcRequestBuilders.post("/login")//
+                .contentType(MediaType.APPLICATION_JSON) //
+                .content(mapper.writeValueAsString(loginInfo))) // Executa
+                .andDo(MockMvcResultHandlers.print()) // pega resultado
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized());
+     
     }
 
    
