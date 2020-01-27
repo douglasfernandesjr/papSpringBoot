@@ -1,4 +1,4 @@
-package com.example.project.configuration.security;
+package com.example.project.configuration.security.service;
 
 import java.util.Date;
 import java.util.List;

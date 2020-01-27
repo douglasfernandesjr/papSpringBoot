@@ -1,8 +1,7 @@
 package com.example.project.security;
 
-import com.example.project.configuration.security.TokenAuthenticationService;
+import com.example.project.configuration.security.service.TokenAuthenticationService;
 import com.example.project.domain.dto.request.UserCreateRequest;
-import com.example.project.domain.dto.request.UserCreateRequestTest;
 import com.example.project.service.SiteUserService;
 
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;

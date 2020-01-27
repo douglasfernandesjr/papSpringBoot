@@ -17,7 +17,6 @@ import com.example.project.repository.SiteUserRoleRepository;
 import com.example.project.utils.SiteRoles;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -38,11 +37,11 @@ public class SiteUserService {
 	@Autowired
 	public SiteUserService(SiteUserRepository siteUserRepository, //
 			SiteUserRoleRepository siteUserRoleRepository, //
-			SiteRoleRepository siteRoleRepository) {
+			SiteRoleRepository siteRoleRepository,PasswordEncoder passEncoder) {
 		this.siteUserRoleRepository = siteUserRoleRepository;
 		this.siteUserRepository = siteUserRepository;
 		this.siteRoleRepository = siteRoleRepository;
-		this.passEncoder = new BCryptPasswordEncoder();
+		this.passEncoder = passEncoder;
 	}
 
 	public SiteUser createUser(String email, String password, boolean isAdmin) {

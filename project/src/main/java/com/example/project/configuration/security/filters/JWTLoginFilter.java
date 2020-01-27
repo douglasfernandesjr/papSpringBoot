@@ -1,4 +1,4 @@
-package com.example.project.configuration.security;
+package com.example.project.configuration.security.filters;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -15,6 +15,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.example.project.configuration.security.service.TokenAuthenticationService;
 import com.example.project.domain.dto.request.LoginRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
