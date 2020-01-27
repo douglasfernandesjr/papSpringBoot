@@ -15,9 +15,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -82,8 +79,6 @@ public class BaseSecurityTest {
         assertEquals(bearer[0],"Bearer");
         assertNotNull(bearer[1]);
     }
-
-   
 
     @Test
     public void should_NotGenerateToken_forInvalidPassword() throws Exception {
