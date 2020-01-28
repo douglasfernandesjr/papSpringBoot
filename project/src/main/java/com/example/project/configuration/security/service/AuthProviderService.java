@@ -1,8 +1,6 @@
-package com.example.project.configuration.security;
+package com.example.project.configuration.security.service;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.example.project.domain.entities.SiteRole;
 import com.example.project.domain.entities.SiteUser;
@@ -31,8 +29,7 @@ public class AuthProviderService implements AuthenticationProvider {
         SiteUser validUser = userService.ValidateUser(name, password);
 
         if (validUser != null) {
-            List<SiteRole> roles = validUser.getRoles().stream() //
-                    .map(x -> x.getSiteRole()).collect(Collectors.toList());
+            List<SiteRole> roles = userService.rolesFrom(validUser);
             return new UsernamePasswordAuthenticationToken(validUser.getEmail(), //
                     validUser.getPassword(), roles);
         } else {

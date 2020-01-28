@@ -26,7 +26,10 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * SiteUserServiceTest
@@ -45,6 +48,9 @@ public class SiteUserServiceTest {
 
     @Mock
     private SiteRoleRepository siteRoleRepository;
+
+    @Spy
+    private PasswordEncoder passEncoder = new BCryptPasswordEncoder();
 
     @InjectMocks
     private SiteUserService service;

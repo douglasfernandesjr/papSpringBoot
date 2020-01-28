@@ -1,5 +1,4 @@
-package com.example.project.configuration.security;
-
+package com.example.project.configuration.security.filters;
 
 import java.io.IOException;
 
@@ -8,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+
+import com.example.project.configuration.security.service.TokenAuthenticationService;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
