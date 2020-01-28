@@ -53,6 +53,14 @@ public class BaseSecurityTest {
     }
 
     @Test
+    public void should_PrivateAcessGetClients_return403() throws Exception {
+        // when + then
+        mockMvc.perform(MockMvcRequestBuilders.get("/clients")) //
+                .andDo(MockMvcResultHandlers.print()) // pega resultado
+                .andExpect(MockMvcResultMatchers.status().isForbidden()); // faz a validação.
+    }
+
+    @Test
     public void should_GenerateToken_forValidUser() throws Exception {
 
         UserCreateRequest usr = UserCreateRequestTest.usrValidEmail2;
