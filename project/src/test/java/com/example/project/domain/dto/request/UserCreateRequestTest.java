@@ -20,63 +20,71 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class UserCreateRequestTest {
 
-    private static Validator validator;
+        private static Validator validator;
 
-    @BeforeClass
-    public static void setUp() {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        validator = factory.getValidator();
-    }
+        @BeforeClass
+        public static void setUp() {
+                ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+                validator = factory.getValidator();
+        }
 
-    public static final UserCreateRequest usrInvalidNull = UserCreateRequest.builder() //
-            .email(null).password(null).isAdmin(null).build();
+        public static final UserCreateRequest usrInvalidNull = UserCreateRequest.builder() //
+                        .email(null).password(null).isAdmin(null).build();
 
-    public static final UserCreateRequest usrInvalidEmail = UserCreateRequest.builder() //
-            .email("email").password("senha12345").isAdmin(false).build();
+        public static final UserCreateRequest usrInvalidEmail = UserCreateRequest.builder() //
+                        .email("email").password("senha12345").isAdmin(false).build();
 
-    public static final UserCreateRequest usrValidEmail1 = UserCreateRequest.builder() //
-            .email("email@email.com").password("senha12345").isAdmin(false).build();
+        public static final UserCreateRequest usrValidEmail1 = UserCreateRequest.builder() //
+                        .email("usrValidEmail1@email.com").password("senha12345").isAdmin(false).build();
 
-    public static final UserCreateRequest usrValidEmail2 = UserCreateRequest.builder() //
-            .email("email@email.com.br").password("senha12345").isAdmin(false).build();
+        public static final UserCreateRequest usrValidEmail2 = UserCreateRequest.builder() //
+                        .email("usrValidEmail2@email.com.br").password("senha12345").isAdmin(false).build();
 
-    public static final UserCreateRequest usrAdminValidEmail = UserCreateRequest.builder() //
-            .email("email@email.com.br").password("senha12345").isAdmin(true).build();
+        public static final UserCreateRequest usrValidEmail3 = UserCreateRequest.builder() //
+                        .email("usrValidEmail3@email.com.br").password("senha12345").isAdmin(false).build();
 
-    @Test
-    public void should_NotBeValid_WhenNull() {
-        UserCreateRequest createDto = usrInvalidNull;
+        public static final UserCreateRequest usrValidEmail4 = UserCreateRequest.builder() //
+                        .email("usrValidEmail44@email.com.br").password("senha12345").isAdmin(false).build();
+        public static final UserCreateRequest usrValidEmail5 = UserCreateRequest.builder() //
+                        .email("usrValidEmail5@email.com.br").password("senha12345").isAdmin(false).build();
 
-        Set<ConstraintViolation<UserCreateRequest>> constraintViolations = validator.validate(createDto);
+        public static final UserCreateRequest usrAdminValidEmail = UserCreateRequest.builder() //
+                        .email("usrAdminValidEmail@email.com.br").password("senha12345").isAdmin(true).build();
 
-        assertTrue("Modelo deve ser inválido", constraintViolations.size() > 0);
-    }
+        @Test
+        public void should_NotBeValid_WhenNull() {
+                UserCreateRequest createDto = usrInvalidNull;
 
-    @Test
-    public void should_NotBeValid_WhenInvalidEmail() {
-        UserCreateRequest createDto = usrInvalidEmail;
+                Set<ConstraintViolation<UserCreateRequest>> constraintViolations = validator.validate(createDto);
 
-        Set<ConstraintViolation<UserCreateRequest>> constraintViolations = validator.validate(createDto);
+                assertTrue("Modelo deve ser inválido", constraintViolations.size() > 0);
+        }
 
-        assertTrue("Modelo deve ser inválido", constraintViolations.size() == 1);
-    }
+        @Test
+        public void should_NotBeValid_WhenInvalidEmail() {
+                UserCreateRequest createDto = usrInvalidEmail;
 
-    @Test
-    public void should_BeValid_WhenValidData() {
-        UserCreateRequest createDto = usrValidEmail1;
+                Set<ConstraintViolation<UserCreateRequest>> constraintViolations = validator.validate(createDto);
 
-        Set<ConstraintViolation<UserCreateRequest>> constraintViolations = validator.validate(createDto);
+                assertTrue("Modelo deve ser inválido", constraintViolations.size() == 1);
+        }
 
-        assertTrue("Modelo deve ser inválido", constraintViolations.size() == 0);
-    }
+        @Test
+        public void should_BeValid_WhenValidData() {
+                UserCreateRequest createDto = usrValidEmail1;
 
-    @Test
-    public void should_BeValid_WhenValidData_2() {
+                Set<ConstraintViolation<UserCreateRequest>> constraintViolations = validator.validate(createDto);
 
-        UserCreateRequest createDto = usrValidEmail2;
+                assertTrue("Modelo deve ser inválido", constraintViolations.size() == 0);
+        }
 
-        Set<ConstraintViolation<UserCreateRequest>> constraintViolations = validator.validate(createDto);
+        @Test
+        public void should_BeValid_WhenValidData_2() {
 
-        assertTrue("Modelo deve ser inválido", constraintViolations.size() == 0);
-    }
+                UserCreateRequest createDto = usrValidEmail2;
+
+                Set<ConstraintViolation<UserCreateRequest>> constraintViolations = validator.validate(createDto);
+
+                assertTrue("Modelo deve ser inválido", constraintViolations.size() == 0);
+        }
 }

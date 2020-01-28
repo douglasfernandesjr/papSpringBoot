@@ -5,7 +5,9 @@ package com.example.project.utils;
  */
 public class SiteRoles {
 
-    public static final String APP_ADMIN = "APP_ADMIN";
+    private static final String ROLE = "ROLE_";
 
-    public static final String APP_USER = "APP_USER";
+    public static final String APP_ADMIN = ROLE + "APPADMIN";
+
+    public static final String APP_USER = ROLE + "APPUSER";
 }

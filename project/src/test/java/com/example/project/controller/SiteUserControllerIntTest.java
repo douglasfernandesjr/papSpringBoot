@@ -69,7 +69,7 @@ public class SiteUserControllerIntTest {
     @Test
     public void should_return201_whenCreated() throws Exception {
         // given
-        UserCreateRequest request = UserCreateRequestTest.usrValidEmail1;
+        UserCreateRequest request = UserCreateRequestTest.usrValidEmail2;
 
         // when + then
         mockMvc.perform(MockMvcRequestBuilders.post("/user") //
@@ -83,7 +83,7 @@ public class SiteUserControllerIntTest {
     public void should_return400_whenDuplicatedEmail() throws Exception {
         // given
 
-        UserCreateRequest request = UserCreateRequestTest.usrValidEmail2;
+        UserCreateRequest request = UserCreateRequestTest.usrValidEmail1;
 
         SiteUser model = SiteUser.builder().email(request.getEmail()).password("987654321").build();
         siteUserRepository.saveAndFlush(model);

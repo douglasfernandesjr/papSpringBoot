@@ -25,8 +25,8 @@ public class SiteUserController {
     private final SiteUserService service;
 
     @Autowired
-	public SiteUserController(SiteUserService service) {
-		this.service = service;
+    public SiteUserController(SiteUserService service) {
+        this.service = service;
     }
 
     @PostMapping
@@ -34,6 +34,7 @@ public class SiteUserController {
 
         SiteUser usr = service.createUser(model.getEmail(), model.getPassword(), model.getIsAdmin());
 
-        return ResponseEntity.created(URI.create("/user/"+usr.getId())).build();
+        return ResponseEntity.created(URI.create("/user/" + usr.getId())).build();
     }
+  
 }
